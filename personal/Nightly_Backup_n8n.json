@@ -1,643 +1,5 @@
 {
-  "name": "Nightly Backup n8n",
-  "nodes": [
-    {
-      "parameters": {
-        "content": "MOVE CURRENT BACKUPS TO OLD FOLDER",
-        "height": 248.06218763804304,
-        "width": 459.41088835102755,
-        "color": 4
-      },
-      "id": "e4795750-7778-4d27-8ed0-c4534688219f",
-      "name": "Sticky Note",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        2266.4636782718453,
-        404.6146058283007
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "BACKUP ALL CURRENT WORKFLOWS",
-        "height": 252.51556941606847,
-        "width": 884.8955400777259
-      },
-      "id": "e88d63e7-71e1-4134-b23d-fd07eecb6953",
-      "name": "Sticky Note1",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1840,
-        676.2171673095763
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "PURGE BACKUPS OLDER THEN 30 DAYS\n",
-        "height": 200.88567597851846,
-        "width": 885.4334031075957
-      },
-      "id": "fe5b4808-37f8-4e95-baf9-4e76f2c7102a",
-      "name": "Sticky Note2",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1840,
-        956.2171673095763
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "mode": "jsonToBinary",
-        "options": {
-          "useRawData": false
-        }
-      },
-      "id": "77a5103d-fa79-4f36-ac8f-9e7ccd0c5ebb",
-      "name": "Move Binary Data",
-      "type": "n8n-nodes-base.moveBinaryData",
-      "position": [
-        2080,
-        756.2171673095763
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "## get Google Drive folders",
-        "height": 755.833854865218,
-        "width": 1199.9131247072414,
-        "color": 2
-      },
-      "id": "8d01ab6b-71fc-41b1-aba6-d461c0846eab",
-      "name": "Sticky Note3",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        620,
-        400
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "## Ignore any other folders other than: n8n_backups\n(it is important that you created this folder)",
-        "height": 248.50745921100844,
-        "width": 392.3686871844003,
-        "color": 6
-      },
-      "id": "c4e63c95-4527-4d7b-bdf7-b646f4210079",
-      "name": "Sticky Note4",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1843.0174649880387,
-        402.2520972856539
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "version": 2,
-            "leftValue": "",
-            "caseSensitive": true,
-            "typeValidation": "strict"
-          },
-          "combinator": "and",
-          "conditions": [
-            {
-              "id": "98415e9e-5354-4223-9107-ef3ade30c2f0",
-              "operator": {
-                "name": "filter.operator.equals",
-                "type": "string",
-                "operation": "equals"
-              },
-              "leftValue": "={{ $node[\"GET CURRENT FOLDER\"].json.name }}",
-              "rightValue": "n8n_backups"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "e5fb1b81-64c8-4d2e-9f17-eaed1b0b5079",
-      "name": "IGNORE FILES",
-      "type": "n8n-nodes-base.filter",
-      "position": [
-        1980,
-        500
-      ],
-      "typeVersion": 2.2
-    },
-    {
-      "parameters": {
-        "resource": "folder",
-        "name": "n8n_backups",
-        "driveId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "My Drive"
-        },
-        "folderId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "root",
-          "cachedResultName": "/ (Root folder)"
-        },
-        "options": {}
-      },
-      "id": "cda1e1f9-6a1b-4f2c-9110-d0b5b7ecd206",
-      "name": "Create n8n_backups",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        1540,
-        816.2171673095763
-      ],
-      "typeVersion": 3,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "folder",
-        "name": "n8n_old",
-        "driveId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "My Drive"
-        },
-        "folderId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "root",
-          "cachedResultName": "/ (Root folder)"
-        },
-        "options": {}
-      },
-      "id": "fef42324-0c00-4557-87fe-fc3bd3163d8c",
-      "name": "Create n8n_old",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        1540,
-        976.2171673095763
-      ],
-      "typeVersion": 3,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "content": "## Contact me \n**By Mail**. [Send Mail](mailto:nuntius.creative.hub@gmail.com)",
-        "height": 205.1411553096722,
-        "width": 211.9229539431747,
-        "color": 3
-      },
-      "id": "75820efe-4472-467f-b0c7-c286bda3249e",
-      "name": "Sticky Note8",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        2480,
-        696.2171673095763
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "## Since the folder does not exist, it creates a new one.\nn8n_backups\nn8n_old",
-        "height": 451.756147757587,
-        "width": 327.6965514381564,
-        "color": 5
-      },
-      "id": "3eb37e85-4436-410f-810b-b0db04b3abb2",
-      "name": "Sticky Note10",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1432.3103992657175,
-        696.2171673095763
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "resource": "fileFolder",
-        "returnAll": true,
-        "filter": {
-          "whatToSearch": "folders"
-        },
-        "options": {}
-      },
-      "id": "b6fcad48-28f2-4881-a29a-1836c78a809e",
-      "name": "GET CURRENT FOLDER",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        700,
-        716.2171673095763
-      ],
-      "executeOnce": true,
-      "notesInFlow": true,
-      "retryOnFail": true,
-      "typeVersion": 3,
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Retrieve all input items from the previous node or function\nconst items = $input.all();\n// Define an array of required folder names that should be present\nconst requiredNames = [\"n8n_old\", \"n8n_backups\"];\n\n// Extract the 'name' property from each input item to get a list of folder names\nconst folderNames = items.map(item => item.json.name);\n\n// Find the required names that are missing from the input folder names\nconst missingNames = requiredNames.filter(name => !folderNames.includes(name));\n// Check if any required names are missing\nif (missingNames.length === 0) {\n  // If none are missing, return a message indicating everything is okay\n  return [{ json: { message: \"ok\" } }];\n} else {\n  // If some are missing, return a message listing the missing folder names\n  return [{ json: { message: `The following are missing: ${missingNames.join(', ')}` } }];\n}"
-      },
-      "id": "db609960-c472-42bc-875f-2cf75aa00f6d",
-      "name": "Code",
-      "type": "n8n-nodes-base.code",
-      "position": [
-        920,
-        720
-      ],
-      "typeVersion": 2
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "version": 2,
-            "leftValue": "",
-            "caseSensitive": true,
-            "typeValidation": "strict"
-          },
-          "combinator": "and",
-          "conditions": [
-            {
-              "id": "43bd468e-1018-4b45-9448-c51835ed65bc",
-              "operator": {
-                "type": "string",
-                "operation": "contains"
-              },
-              "leftValue": "={{ $json.message }}",
-              "rightValue": "n8n_old"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "9f64cffb-d8c7-4d54-ba4d-a2b7ade6bdcf",
-      "name": "If n8n_old",
-      "type": "n8n-nodes-base.if",
-      "position": [
-        1140,
-        836.2171673095763
-      ],
-      "typeVersion": 2.2
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "version": 2,
-            "leftValue": "",
-            "caseSensitive": true,
-            "typeValidation": "strict"
-          },
-          "conditions": [
-            {
-              "id": "43bd468e-1018-4b45-9448-c51835ed65bc",
-              "operator": {
-                "type": "string",
-                "operation": "contains"
-              },
-              "leftValue": "={{ $json.message }}",
-              "rightValue": "n8n_backups"
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "d7f21c93-c7d5-4c72-b389-1b7595a867f0",
-      "name": "If1 n8n_backups",
-      "type": "n8n-nodes-base.if",
-      "position": [
-        1140,
-        596.2171673095763
-      ],
-      "typeVersion": 2.2
-    },
-    {
-      "parameters": {
-        "resource": "fileFolder",
-        "returnAll": true,
-        "filter": {
-          "whatToSearch": "folders"
-        },
-        "options": {}
-      },
-      "id": "4f38a127-14e3-4fbc-8331-1fc515eec6a8",
-      "name": "GET CURRENT FOLDER CREATES",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        1660,
-        496.2171673095763
-      ],
-      "executeOnce": true,
-      "notesInFlow": true,
-      "retryOnFail": true,
-      "typeVersion": 3,
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "combinationMode": "mergeByPosition",
-        "options": {}
-      },
-      "id": "c540f4b3-f057-4046-a519-b5122060d791",
-      "name": "Merge mensage",
-      "type": "n8n-nodes-base.merge",
-      "position": [
-        1440,
-        496.2171673095763
-      ],
-      "typeVersion": 2.1
-    },
-    {
-      "parameters": {
-        "resource": "fileFolder",
-        "queryString": ".json",
-        "returnAll": true,
-        "filter": {
-          "folderId": {
-            "__rl": true,
-            "value": "1IWWE4kMwBEF7eJ1ZTpu1z4GTGzELvb_U",
-            "mode": "id"
-          }
-        },
-        "options": {
-          "fields": [
-            "name",
-            "id"
-          ]
-        }
-      },
-      "id": "d1d63e53-9f12-444c-bd79-342a9914f273",
-      "name": "GET CURRENT BACKUPS1",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        2340,
-        476.2171673095763
-      ],
-      "typeVersion": 3,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "triggerAtHour": 3
-            }
-          ]
-        }
-      },
-      "id": "d72b80f6-f040-4811-a445-c323f2259da7",
-      "name": "Schedule Trigger",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "position": [
-        700,
-        496.2171673095763
-      ],
-      "typeVersion": 1.1
-    },
-    {
-      "parameters": {
-        "content": "## Does a folder exist?, if it does not exist it creates it",
-        "height": 569.796501742684,
-        "color": 7
-      },
-      "id": "7cd1c636-52ef-46cb-9434-9e1ac97f9c58",
-      "name": "Sticky Note5",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1080,
-        436.2171673095763
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "operation": "move",
-        "fileId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "={{ $json.id }}"
-        },
-        "driveId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "My Drive"
-        },
-        "folderId": {
-          "__rl": true,
-          "mode": "list",
-          "value": "1kkdMQMudIZNzo37ZXeO0POS62XcT40AC",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1kkdMQMudIZNzo37ZXeO0POS62XcT40AC",
-          "cachedResultName": "n8n_old"
-        }
-      },
-      "id": "097fcb55-84b5-4605-8454-2883c9810735",
-      "name": "MOVE INTO OLD FOLDER",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        2540,
-        476.2171673095763
-      ],
-      "typeVersion": 3,
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "resource": "fileFolder",
-        "queryString": ".json",
-        "returnAll": true,
-        "filter": {
-          "folderId": {
-            "__rl": true,
-            "mode": "list",
-            "value": "1kkdMQMudIZNzo37ZXeO0POS62XcT40AC",
-            "cachedResultUrl": "https://drive.google.com/drive/folders/1kkdMQMudIZNzo37ZXeO0POS62XcT40AC",
-            "cachedResultName": "n8n_old"
-          }
-        },
-        "options": {
-          "fields": [
-            "name",
-            "id"
-          ]
-        }
-      },
-      "id": "e0e956b4-cd53-4df0-bfb0-5f7fadae0398",
-      "name": "LIST OLD BACKUPS1",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        2200,
-        996.2171673095763
-      ],
-      "typeVersion": 3,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "deleteFile",
-        "fileId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "={{ $json.id }}"
-        },
-        "options": {
-          "deletePermanently": true
-        }
-      },
-      "id": "ad8236cc-de34-4e8e-a777-cff21461d1b9",
-      "name": "MOVE INTO OLD FOLDER1",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        2500,
-        996.2171673095763
-      ],
-      "typeVersion": 3,
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "daysInterval": 30,
-              "triggerAtHour": 5
-            }
-          ]
-        }
-      },
-      "id": "7525d232-37c4-44ad-9eb4-00d5fe45e9c1",
-      "name": "Schedule Trigger1",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "position": [
-        1920,
-        996.2171673095763
-      ],
-      "typeVersion": 1.1
-    },
-    {
-      "parameters": {
-        "content": "## Description\nThis template creates a nightly backup of all n8n workflows and saves them to a Google Drive folder. Each night, the previous night's backups are moved to an “n8n_old” folder and renamed with the corresponding date.\n\nBackups older than a specified age are automatically deleted (this feature is active for 30 days, you can remove it if you don't want the backups to be deleted).\n\n## Prerequisites\n\n- Google Drive account and credentials **Get** from the following link. [Link](https://console.cloud.google.com/apis/credentials/oauthclient/)\n- n8n version 1.63.4 or higher\n- N8n api key **Guide** from the following link. [Link](https://witmovil.com/where-to-create-the-api-key-in-n8n/)\n- A destination folder for backups:\n“n8n_old”\n“n8n_backups”\n(if it doesn't exist, create it)\n\n## Configuration\nUpdate all Google Drive nodes with your credentials.\nEdit the Schedule Trigger node with the desired time to run the backup.\nIf you want to automatically purge old backups.\n\nEdit the “PURGE DAYS” node to specify the age of the backups you want to delete.\nEnable the “PURGE DAYS” node and the 3 subsequent nodes.\nEnable the workflow to run on the specified schedule.",
-        "height": 759.2757638563562,
-        "width": 397.07512898799075,
-        "color": 3
-      },
-      "id": "e2f781df-c4af-4d66-bc1b-8e6eb6bbaadc",
-      "name": "Sticky Note6",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        200,
-        400
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "name": "={{ $node[\"n8n1\"].json[\"name\"] }} - {{ $node[\"n8n1\"].json[\"updatedAt\"] }}.json",
-        "driveId": {
-          "__rl": true,
-          "value": "My Drive",
-          "mode": "list",
-          "cachedResultName": "My Drive",
-          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
-        },
-        "folderId": {
-          "__rl": true,
-          "value": "1IWWE4kMwBEF7eJ1ZTpu1z4GTGzELvb_U",
-          "mode": "id"
-        },
-        "options": {}
-      },
-      "id": "9042de77-1c82-4e36-b485-e9fc7b009b00",
-      "name": "Google Drive",
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        2300,
-        760
-      ],
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "filters": {},
-        "requestOptions": {}
-      },
-      "id": "9ee16bb6-23ce-4294-a606-a78f31763a87",
-      "name": "n8n1",
-      "type": "n8n-nodes-base.n8n",
-      "typeVersion": 1,
-      "position": [
-        1900,
-        760
-      ],
-      "credentials": {
-        "n8nApi": {
-          "id": "KaQWgWHYcdejFVFJ",
-          "name": "n8n account"
-        }
-      }
-    }
-  ],
-  "pinData": {},
+  "active": false,
   "connections": {
     "Code": {
       "main": [
@@ -829,18 +191,705 @@
       ]
     }
   },
-  "active": true,
-  "settings": {
-    "executionOrder": "v1",
-    "saveManualExecutions": true,
-    "callerPolicy": "workflowsFromSameOwner"
-  },
-  "versionId": "a43f9112-2aeb-4241-b257-ddf5b9b49696",
+  "createdAt": "2024-10-27T17:31:15.652Z",
+  "id": "MHVvBuLA2kcfSh8f",
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "templateId": "1750",
-    "instanceId": "3c12501ec78392c0238f8bdce543be49f32b08a0dc4b2718aa29d95c16db6580"
+    "templateCredsSetupCompleted": true
   },
-  "id": "3Phy51d3eMdserLa",
-  "tags": []
+  "name": "Nightly_Backup_n8n",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "MOVE CURRENT BACKUPS TO OLD FOLDER",
+        "height": 248.06218763804304,
+        "width": 459.41088835102755,
+        "color": 4
+      },
+      "id": "3550d571-b529-425d-ad61-817cbb41455d",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3366.4636782718453,
+        224.61460582830068
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "BACKUP ALL CURRENT WORKFLOWS",
+        "height": 252.51556941606847,
+        "width": 884.8955400777259
+      },
+      "id": "e7de2cd7-c35b-4f71-9b75-abd90aeed2fb",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2940,
+        496.2171673095763
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "PURGE BACKUPS OLDER THEN 30 DAYS\n",
+        "height": 200.88567597851846,
+        "width": 885.4334031075957
+      },
+      "id": "a75374f9-a2a5-4f71-a464-ed80c300b2cd",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2940,
+        776.2171673095763
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mode": "jsonToBinary",
+        "options": {
+          "useRawData": false
+        }
+      },
+      "id": "71891ec8-f78c-4b36-9b7f-8a2536904a72",
+      "name": "Move Binary Data",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "position": [
+        3180,
+        576.2171673095763
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## get Google Drive folders",
+        "height": 755.833854865218,
+        "width": 1199.9131247072414,
+        "color": 2
+      },
+      "id": "6b8e74e1-0164-4756-9ae8-8d505f5c899b",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1720,
+        220
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Ignore any other folders other than: n8n_backups\n(it is important that you created this folder)",
+        "height": 248.50745921100844,
+        "width": 392.3686871844003,
+        "color": 6
+      },
+      "id": "3e9d2c52-ef7b-4712-a1db-3716b48f2757",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2943.0174649880387,
+        222.25209728565392
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "98415e9e-5354-4223-9107-ef3ade30c2f0",
+              "operator": {
+                "name": "filter.operator.equals",
+                "type": "string",
+                "operation": "equals"
+              },
+              "leftValue": "={{ $node[\"GET CURRENT FOLDER\"].json.name }}",
+              "rightValue": "n8n_backups"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "789f34ac-9a41-432e-b6b7-a7e94e51835c",
+      "name": "IGNORE FILES",
+      "type": "n8n-nodes-base.filter",
+      "position": [
+        3080,
+        320
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "n8n_backups",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "id": "ee67d8d7-8c4a-4817-80db-d4730c4c0109",
+      "name": "Create n8n_backups",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        2640,
+        636.2171673095763
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "n8n_old",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "id": "370706aa-fa93-495e-8a60-f522e5194ed2",
+      "name": "Create n8n_old",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        2640,
+        796.2171673095763
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Contact me \n**By Mail**. [Send Mail](mailto:nuntius.creative.hub@gmail.com)",
+        "height": 205.1411553096722,
+        "width": 211.9229539431747,
+        "color": 3
+      },
+      "id": "5fd7b48a-68e1-45f5-9107-c7e23389f73d",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3580,
+        516.2171673095763
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Since the folder does not exist, it creates a new one.\nn8n_backups\nn8n_old",
+        "height": 451.756147757587,
+        "width": 327.6965514381564,
+        "color": 5
+      },
+      "id": "c49f1ab5-7b44-4b72-afdc-0fced6b0e5f9",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2532.3103992657175,
+        516.2171673095763
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "returnAll": true,
+        "filter": {
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "id": "bc610545-0788-4b8c-97c1-fcf0aa911009",
+      "name": "GET CURRENT FOLDER",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1800,
+        536.2171673095763
+      ],
+      "executeOnce": true,
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "typeVersion": 3,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Retrieve all input items from the previous node or function\nconst items = $input.all();\n// Define an array of required folder names that should be present\nconst requiredNames = [\"n8n_old\", \"n8n_backups\"];\n\n// Extract the 'name' property from each input item to get a list of folder names\nconst folderNames = items.map(item => item.json.name);\n\n// Find the required names that are missing from the input folder names\nconst missingNames = requiredNames.filter(name => !folderNames.includes(name));\n// Check if any required names are missing\nif (missingNames.length === 0) {\n  // If none are missing, return a message indicating everything is okay\n  return [{ json: { message: \"ok\" } }];\n} else {\n  // If some are missing, return a message listing the missing folder names\n  return [{ json: { message: `The following are missing: ${missingNames.join(', ')}` } }];\n}"
+      },
+      "id": "4a6db435-3db3-4b38-a789-686e89c4212d",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        2020,
+        540
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "43bd468e-1018-4b45-9448-c51835ed65bc",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              },
+              "leftValue": "={{ $json.message }}",
+              "rightValue": "n8n_old"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fff41046-7711-4896-bda6-d970e4fe9f9e",
+      "name": "If n8n_old",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        2240,
+        656.2171673095763
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "43bd468e-1018-4b45-9448-c51835ed65bc",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              },
+              "leftValue": "={{ $json.message }}",
+              "rightValue": "n8n_backups"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2d2c6b93-da68-4d00-96f4-dd703047f3ac",
+      "name": "If1 n8n_backups",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        2240,
+        416.2171673095763
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "returnAll": true,
+        "filter": {
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "id": "6be4c2b9-c4dc-4da9-baea-83d64a1f298c",
+      "name": "GET CURRENT FOLDER CREATES",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        2760,
+        316.2171673095763
+      ],
+      "executeOnce": true,
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "typeVersion": 3,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "76510788-0215-4529-8c3c-33ecfadd545e",
+      "name": "Merge mensage",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        2540,
+        316.2171673095763
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": ".json",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1IWWE4kMwBEF7eJ1ZTpu1z4GTGzELvb_U",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "name",
+            "id"
+          ]
+        }
+      },
+      "id": "54d74b34-ead6-49dd-864c-ed51158c6909",
+      "name": "GET CURRENT BACKUPS1",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        3440,
+        296.2171673095763
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 3
+            }
+          ]
+        }
+      },
+      "id": "76758b0a-3f91-4546-8b81-1b3b585bb09b",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        1800,
+        316.2171673095763
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "content": "## Does a folder exist?, if it does not exist it creates it",
+        "height": 569.796501742684,
+        "color": 7
+      },
+      "id": "1cba3b18-9159-4758-a4d1-92de4a85d400",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2180,
+        256.2171673095763
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1kkdMQMudIZNzo37ZXeO0POS62XcT40AC",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1kkdMQMudIZNzo37ZXeO0POS62XcT40AC",
+          "cachedResultName": "n8n_old"
+        }
+      },
+      "id": "fc4f3766-5017-4d5d-b77e-011d1cf2ff4c",
+      "name": "MOVE INTO OLD FOLDER",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        3640,
+        296.2171673095763
+      ],
+      "typeVersion": 3,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": ".json",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "1kkdMQMudIZNzo37ZXeO0POS62XcT40AC",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1kkdMQMudIZNzo37ZXeO0POS62XcT40AC",
+            "cachedResultName": "n8n_old"
+          }
+        },
+        "options": {
+          "fields": [
+            "name",
+            "id"
+          ]
+        }
+      },
+      "id": "ba403f3f-919c-49e1-8ec8-da6301f01a6f",
+      "name": "LIST OLD BACKUPS1",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        3300,
+        816.2171673095763
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "options": {
+          "deletePermanently": true
+        }
+      },
+      "id": "bc57dbbd-dc08-4444-86ac-89a1b419db5e",
+      "name": "MOVE INTO OLD FOLDER1",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        3600,
+        816.2171673095763
+      ],
+      "typeVersion": 3,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": 30,
+              "triggerAtHour": 5
+            }
+          ]
+        }
+      },
+      "id": "be70d68d-f15e-42f9-84c9-c610cee1af92",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        3020,
+        816.2171673095763
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "content": "## Description\nThis template creates a nightly backup of all n8n workflows and saves them to a Google Drive folder. Each night, the previous night's backups are moved to an “n8n_old” folder and renamed with the corresponding date.\n\nBackups older than a specified age are automatically deleted (this feature is active for 30 days, you can remove it if you don't want the backups to be deleted).\n\n## Prerequisites\n\n- Google Drive account and credentials **Get** from the following link. [Link](https://console.cloud.google.com/apis/credentials/oauthclient/)\n- n8n version 1.63.4 or higher\n- N8n api key **Guide** from the following link. [Link](https://witmovil.com/where-to-create-the-api-key-in-n8n/)\n- A destination folder for backups:\n“n8n_old”\n“n8n_backups”\n(if it doesn't exist, create it)\n\n## Configuration\nUpdate all Google Drive nodes with your credentials.\nEdit the Schedule Trigger node with the desired time to run the backup.\nIf you want to automatically purge old backups.\n\nEdit the “PURGE DAYS” node to specify the age of the backups you want to delete.\nEnable the “PURGE DAYS” node and the 3 subsequent nodes.\nEnable the workflow to run on the specified schedule.",
+        "height": 759.2757638563562,
+        "width": 397.07512898799075,
+        "color": 3
+      },
+      "id": "75b26971-1af3-456e-a238-d5fb81306a80",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1300,
+        220
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "name": "={{ $node[\"n8n1\"].json[\"name\"] }} - {{ $node[\"n8n1\"].json[\"updatedAt\"] }}.json",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1IWWE4kMwBEF7eJ1ZTpu1z4GTGzELvb_U",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "6bedc86c-131c-4731-8a55-599862af3716",
+      "name": "Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3400,
+        580
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "52c941a8-1f62-4d38-99b8-d57c5d6e3643",
+      "name": "n8n1",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        3000,
+        580
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "KaQWgWHYcdejFVFJ",
+          "name": "n8n account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2024-10-27T17:31:15.652Z",
+      "updatedAt": "2024-10-27T17:31:15.652Z",
+      "role": "workflow:owner",
+      "workflowId": "MHVvBuLA2kcfSh8f",
+      "projectId": "fNTluMKsYBer8dQm",
+      "project": {
+        "createdAt": "2024-10-24T22:05:51.404Z",
+        "updatedAt": "2024-10-24T22:06:36.731Z",
+        "id": "fNTluMKsYBer8dQm",
+        "name": "Matthew Savage <matt@focusedmobile.com>",
+        "type": "personal",
+        "projectRelations": [
+          {
+            "createdAt": "2024-10-24T22:05:51.404Z",
+            "updatedAt": "2024-10-24T22:05:51.404Z",
+            "role": "project:personalOwner",
+            "userId": "f5fff29b-3415-42e5-8f3d-79f50031307a",
+            "projectId": "fNTluMKsYBer8dQm",
+            "user": {
+              "createdAt": "2024-10-24T22:05:50.761Z",
+              "updatedAt": "2024-10-27T15:26:11.540Z",
+              "id": "f5fff29b-3415-42e5-8f3d-79f50031307a",
+              "email": "matt@focusedmobile.com",
+              "firstName": "Matthew",
+              "lastName": "Savage",
+              "personalizationAnswers": {
+                "version": "v4",
+                "personalization_survey_submitted_at": "2024-10-24T22:06:42.111Z",
+                "personalization_survey_n8n_version": "1.64.2"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "3Phy51d3eMdserLa",
+                "userActivatedAt": 1729926141984,
+                "isOnboarded": true
+              },
+              "role": "global:owner",
+              "disabled": false,
+              "mfaEnabled": false,
+              "isPending": false,
+              "isOwner": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-10-27T17:51:59.275Z",
+  "versionId": "71a5875f-bad7-4ff8-b69a-be0e3e177387"
 }
