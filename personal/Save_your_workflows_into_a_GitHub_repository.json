@@ -71,11 +71,6 @@
       "main": [
         [
           {
-            "node": "GitHub",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "N8N Workflow Detail",
             "type": "main",
             "index": 0
@@ -214,7 +209,7 @@
       "name": "On clicking 'execute'",
       "type": "n8n-nodes-base.manualTrigger",
       "position": [
-        -340,
+        -620,
         480
       ],
       "typeVersion": 1,
@@ -222,12 +217,12 @@
     },
     {
       "parameters": {
-        "functionCode": "const newItems = [];\nfor (item of items[0].json.data) {\n  newItems.push({json: item});\n}\nreturn newItems;"
+        "functionCode": "const newItems = [];\n\n// Iterate over each item in the input data\nfor (const item of items[0].json.data) {\n  // Check if the 'name' field exists and is a string\n  if (item.name && typeof item.name === 'string') {\n    // Replace all spaces with underscores in the 'name' field\n    item.name = item.name.replace(/ /g, '_');\n  }\n\n  // Add the modified item to the newItems array\n  newItems.push({ json: item });\n}\n\n// Return the modified items\nreturn newItems;"
       },
       "name": "dataArray",
       "type": "n8n-nodes-base.function",
       "position": [
-        100,
+        -180,
         620
       ],
       "typeVersion": 1,
@@ -242,7 +237,7 @@
       "name": "N8N Workflows",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        -60,
+        -340,
         620
       ],
       "typeVersion": 1,
@@ -267,8 +262,8 @@
       "name": "GitHub",
       "type": "n8n-nodes-base.github",
       "position": [
-        440,
-        460
+        520,
+        440
       ],
       "typeVersion": 1,
       "alwaysOutputData": true,
@@ -440,7 +435,7 @@
       "name": "Daily @ 20:00",
       "type": "n8n-nodes-base.cron",
       "position": [
-        -340,
+        -620,
         780
       ],
       "typeVersion": 1,
@@ -483,7 +478,7 @@
       "name": "Globals",
       "type": "n8n-nodes-base.set",
       "position": [
-        -200,
+        -480,
         620
       ],
       "typeVersion": 1,
@@ -557,6 +552,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-10-27T18:20:54.823Z",
-  "versionId": "3be4d9e9-537d-4f5f-b883-821acdf9dd44"
+  "updatedAt": "2024-10-27T19:14:46.832Z",
+  "versionId": "f9cb0998-2d14-48e7-ab55-109611824e67"
 }
