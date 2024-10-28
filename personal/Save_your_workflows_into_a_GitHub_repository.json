@@ -74,6 +74,11 @@
             "node": "N8N Workflow Detail",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -552,6 +557,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-10-27T19:14:46.832Z",
-  "versionId": "f9cb0998-2d14-48e7-ab55-109611824e67"
+  "updatedAt": "2024-10-27T23:58:47.561Z",
+  "versionId": "413d4ea3-8c62-413d-ac2e-28c302ac3086"
 }
