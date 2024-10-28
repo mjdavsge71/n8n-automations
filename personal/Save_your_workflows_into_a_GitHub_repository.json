@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "new": {
       "main": [
@@ -214,21 +214,21 @@
       "name": "On clicking 'execute'",
       "type": "n8n-nodes-base.manualTrigger",
       "position": [
-        -620,
-        480
+        -460,
+        500
       ],
       "typeVersion": 1,
       "id": "1c41f487-ad29-40b9-91b1-6af3ae105429"
     },
     {
       "parameters": {
-        "functionCode": "const newItems = [];\n\n// Iterate over each item in the input data\nfor (const item of items[0].json.data) {\n  // Check if the 'name' field exists and is a string\n  if (item.name && typeof item.name === 'string') {\n    // Replace all spaces with underscores in the 'name' field\n    item.name = item.name.replace(/ /g, '_');\n  }\n\n  // Add the modified item to the newItems array\n  newItems.push({ json: item });\n}\n\n// Return the modified items\nreturn newItems;"
+        "functionCode": "const newItems = [];\n\n// Iterate over each item in the input data\nfor (const item of items[0].json.data) {\n  // Check if the 'name' field exists and is a string\n  if (item.name && typeof item.name === 'string') {\n    // Replace all spaces with underscores in the 'name' field so it matches the downloaded JSON file name in GitHub\n    item.name = item.name.replace(/ /g, '_');\n  }\n\n  // Add the modified item to the newItems array\n  newItems.push({ json: item });\n}\n\n// Return the modified items\nreturn newItems;"
       },
       "name": "dataArray",
       "type": "n8n-nodes-base.function",
       "position": [
-        -180,
-        620
+        -20,
+        640
       ],
       "typeVersion": 1,
       "id": "ecea9dd4-3073-4ba2-ae13-17cdc3ccbecc"
@@ -236,14 +236,14 @@
     {
       "parameters": {
         "authentication": "headerAuth",
-        "url": " http://172.28.156.100:5678/api/v1/workflows?active=false",
+        "url": " http://172.28.156.100:5678/api/v1/workflows",
         "options": {}
       },
       "name": "N8N Workflows",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        -340,
-        620
+        -180,
+        640
       ],
       "typeVersion": 1,
       "id": "713c4550-8e09-4bd1-accf-e864a7a9d7e2",
@@ -431,8 +431,8 @@
         "triggerTimes": {
           "item": [
             {
-              "hour": 20,
-              "minute": 11
+              "hour": 1,
+              "minute": 17
             }
           ]
         }
@@ -440,8 +440,8 @@
       "name": "Daily @ 20:00",
       "type": "n8n-nodes-base.cron",
       "position": [
-        -620,
-        780
+        -460,
+        800
       ],
       "typeVersion": 1,
       "id": "654f3101-97c8-4337-bb44-a66a71a4ce74"
@@ -483,8 +483,8 @@
       "name": "Globals",
       "type": "n8n-nodes-base.set",
       "position": [
-        -480,
-        620
+        -320,
+        640
       ],
       "typeVersion": 1,
       "id": "137f9fd0-5d9b-4f80-a154-4256a35c1d31"
@@ -556,7 +556,7 @@
   ],
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-10-27T23:58:47.561Z",
-  "versionId": "413d4ea3-8c62-413d-ac2e-28c302ac3086"
+  "triggerCount": 1,
+  "updatedAt": "2024-10-28T13:36:04.089Z",
+  "versionId": "6606189b-9df0-4874-87dc-583a13ce67b7"
 }
