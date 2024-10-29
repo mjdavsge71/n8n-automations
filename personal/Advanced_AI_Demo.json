@@ -878,8 +878,8 @@
       "name": "On new email to nathan's inbox",
       "type": "n8n-nodes-base.gmailTrigger",
       "position": [
-        480,
-        700
+        280,
+        640
       ],
       "typeVersion": 1.1,
       "credentials": {
@@ -1043,6 +1043,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-10-29T15:46:43.796Z",
-  "versionId": "f3fe840c-b732-47f3-8359-a10eb251266d"
+  "updatedAt": "2024-10-29T15:48:19.011Z",
+  "versionId": "fe255eb4-af93-466e-8cb4-f6a1dbba6cb0"
 }
