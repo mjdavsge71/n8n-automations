@@ -1,0 +1,48 @@
+{
+  "name": "Update Knowledge Base",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1ebcfacc-d633-42ce-ad6d-377d9288e10f",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "euNIJj0r5Iy7gQ2j",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a9d2eb8f-59c8-4105-9206-595639ade444",
+  "meta": {
+    "instanceId": "92e6af5db76ba386915b9e9861bfcd1e5474d52d943083f56acb6c737f64115c"
+  },
+  "id": "1yjPmCP7AoPvgbqT",
+  "tags": []
+}
