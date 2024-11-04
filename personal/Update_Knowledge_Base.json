@@ -1,6 +1,62 @@
 {
-  "active": false,
-  "connections": {},
+  "active": true,
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "createdAt": "2024-11-04T02:48:19.576Z",
   "id": "1yjPmCP7AoPvgbqT",
   "meta": null,
@@ -38,6 +94,115 @@
         "googleDriveOAuth2Api": {
           "id": "FUDonbr4yYH2SuJT",
           "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        220,
+        0
+      ],
+      "id": "3ee2b499-1a83-420e-9c31-fc1ff6c28890",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "FUDonbr4yYH2SuJT",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n"
+        },
+        "options": {
+          "pineconeNamespace": "knowledgebase"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        440,
+        0
+      ],
+      "id": "cd87a27c-868d-4014-a484-6f02daf8fca3",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "hSPfEia08R8eG7dQ",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "file",
+                "value": "={{ $json.name }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        580,
+        220
+      ],
+      "id": "5bd6fba8-d9a2-40ab-869a-45849a8843e4",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 200,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        680,
+        440
+      ],
+      "id": "ee0f3112-7f08-4cac-82db-84cdd30eed1a",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        240
+      ],
+      "id": "6f1b6091-2ade-4aa8-8abc-a89c19856259",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "xIUMdAYwsmU5daC9",
+          "name": "OpenAi account"
         }
       }
     }
@@ -100,9 +265,13 @@
       }
     }
   ],
-  "staticData": null,
+  "staticData": {
+    "node:Google Drive Trigger": {
+      "lastTimeChecked": "2024-11-04T20:26:27Z"
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-11-04T03:47:36.257Z",
-  "versionId": "84b095f0-83e7-48bf-a570-c2fe1f96dce4"
+  "triggerCount": 1,
+  "updatedAt": "2024-11-04T20:26:27.737Z",
+  "versionId": "2f28f8a0-c42b-41da-8a74-645cb72ca2dd"
 }
