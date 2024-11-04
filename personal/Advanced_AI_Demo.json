@@ -1013,7 +1013,7 @@
             "projectId": "fNTluMKsYBer8dQm",
             "user": {
               "createdAt": "2024-10-24T22:05:50.761Z",
-              "updatedAt": "2024-10-27T15:26:11.540Z",
+              "updatedAt": "2024-11-04T02:53:43.849Z",
               "id": "f5fff29b-3415-42e5-8f3d-79f50031307a",
               "email": "matt@focusedmobile.com",
               "firstName": "Matthew",
@@ -1027,7 +1027,12 @@
                 "userActivated": true,
                 "firstSuccessfulWorkflowId": "3Phy51d3eMdserLa",
                 "userActivatedAt": 1729926141984,
-                "isOnboarded": true
+                "isOnboarded": true,
+                "npsSurvey": {
+                  "waitingForResponse": true,
+                  "ignoredCount": 1,
+                  "lastShownAt": 1730688811927
+                }
               },
               "role": "global:owner",
               "disabled": false,
