@@ -249,8 +249,8 @@
       "id": "713c4550-8e09-4bd1-accf-e864a7a9d7e2",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "Il4fyqhG5uALaeQe",
-          "name": "Header Auth n8n"
+          "id": "C4V1mxzUsCjxnuRN",
+          "name": "Header Auth account"
         }
       }
     },
@@ -275,7 +275,7 @@
       "id": "6b058aa9-ebf1-48b2-8c19-65f3627ff8ec",
       "credentials": {
         "githubApi": {
-          "id": "vt1g8cVfEvZk83Nw",
+          "id": "FtY69ZsLZ8WRvV5E",
           "name": "GitHub account"
         }
       },
@@ -297,8 +297,8 @@
       "id": "ba959ddc-de6f-4e9e-9295-f21dcfdb3484",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "Il4fyqhG5uALaeQe",
-          "name": "Header Auth n8n"
+          "id": "C4V1mxzUsCjxnuRN",
+          "name": "Header Auth account"
         }
       }
     },
@@ -359,7 +359,7 @@
       "type": "n8n-nodes-base.noOp",
       "position": [
         1160,
-        790
+        800
       ],
       "typeVersion": 1,
       "id": "864a281f-fd87-4a82-a06a-821fd686f9a1"
@@ -378,13 +378,13 @@
       "type": "n8n-nodes-base.github",
       "position": [
         1360,
-        510
+        520
       ],
       "typeVersion": 1,
       "id": "124749b5-3f04-4646-bf49-560cc293ddb7",
       "credentials": {
         "githubApi": {
-          "id": "vt1g8cVfEvZk83Nw",
+          "id": "FtY69ZsLZ8WRvV5E",
           "name": "GitHub account"
         }
       }
@@ -402,13 +402,13 @@
       "type": "n8n-nodes-base.github",
       "position": [
         1360,
-        790
+        800
       ],
       "typeVersion": 1,
       "id": "42fc7196-cace-48c8-ba3b-32fff7e25259",
       "credentials": {
         "githubApi": {
-          "id": "vt1g8cVfEvZk83Nw",
+          "id": "FtY69ZsLZ8WRvV5E",
           "name": "GitHub account"
         }
       }
@@ -455,7 +455,7 @@
       "type": "n8n-nodes-base.splitInBatches",
       "position": [
         260,
-        630
+        640
       ],
       "typeVersion": 1,
       "id": "6be82fe3-dcfc-4b53-be4a-f3465c18ff42"
@@ -527,7 +527,7 @@
             "projectId": "fNTluMKsYBer8dQm",
             "user": {
               "createdAt": "2024-10-24T22:05:50.761Z",
-              "updatedAt": "2024-10-27T15:26:11.540Z",
+              "updatedAt": "2024-11-04T02:53:43.849Z",
               "id": "f5fff29b-3415-42e5-8f3d-79f50031307a",
               "email": "matt@focusedmobile.com",
               "firstName": "Matthew",
@@ -541,7 +541,12 @@
                 "userActivated": true,
                 "firstSuccessfulWorkflowId": "3Phy51d3eMdserLa",
                 "userActivatedAt": 1729926141984,
-                "isOnboarded": true
+                "isOnboarded": true,
+                "npsSurvey": {
+                  "waitingForResponse": true,
+                  "ignoredCount": 1,
+                  "lastShownAt": 1730688811927
+                }
               },
               "role": "global:owner",
               "disabled": false,
@@ -557,6 +562,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-10-28T13:49:10.091Z",
-  "versionId": "6b0c1171-2274-4986-b52d-e83de1072f07"
+  "updatedAt": "2024-11-04T03:31:45.924Z",
+  "versionId": "31b47a30-85e4-4d75-97e7-ed07dfb1eaea"
 }
