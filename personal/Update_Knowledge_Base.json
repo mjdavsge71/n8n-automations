@@ -18,9 +18,13 @@
         "triggerOn": "specificFolder",
         "folderToWatch": {
           "__rl": true,
+          "value": "1cUwGCqOwmbfNVLLX6gkI6Hq16Ketn20J",
           "mode": "list",
-          "value": ""
-        }
+          "cachedResultName": "Knowledge Docs",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1cUwGCqOwmbfNVLLX6gkI6Hq16Ketn20J"
+        },
+        "event": "fileCreated",
+        "options": {}
       },
       "type": "n8n-nodes-base.googleDriveTrigger",
       "typeVersion": 1,
@@ -32,7 +36,7 @@
       "name": "Google Drive Trigger",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "euNIJj0r5Iy7gQ2j",
+          "id": "FUDonbr4yYH2SuJT",
           "name": "Google Drive account"
         }
       }
@@ -99,6 +103,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-11-04T02:53:31.231Z",
-  "versionId": "a9d2eb8f-59c8-4105-9206-595639ade444"
+  "updatedAt": "2024-11-04T03:47:36.257Z",
+  "versionId": "84b095f0-83e7-48bf-a570-c2fe1f96dce4"
 }
