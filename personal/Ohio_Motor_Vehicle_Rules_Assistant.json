@@ -5,19 +5,8 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Question and Answer Chain",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Vector Store Tool": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -27,52 +16,41 @@
       "ai_vectorStore": [
         [
           {
-            "node": "Vector Store Tool",
+            "node": "Vector Store Retriever",
             "type": "ai_vectorStore",
             "index": 0
           }
         ]
       ]
     },
-    "OpenAI Chat Model": {
+    "Ollama Chat Model": {
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
+            "node": "Question and Answer Chain",
             "type": "ai_languageModel",
             "index": 0
           }
         ]
       ]
     },
-    "Window Buffer Memory": {
-      "ai_memory": [
+    "Vector Store Retriever": {
+      "ai_retriever": [
         [
           {
-            "node": "AI Agent",
-            "type": "ai_memory",
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
             "index": 0
           }
         ]
       ]
     },
-    "Embeddings OpenAI": {
+    "Embeddings Ollama": {
       "ai_embedding": [
         [
           {
             "node": "Pinecone Vector Store",
             "type": "ai_embedding",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Vector Tool": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Vector Store Tool",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -97,41 +75,11 @@
     },
     {
       "parameters": {
-        "options": {
-          "systemMessage": "You are a helpful assistant for students that are studying to take the Ohio motor vehicle test.  Your name is Max. Your tone should be friendly and helpful, if you receive a greeting respond with the appropriate response. When asked about questions about ohio motor vehicle laws only use the vector tool to retrieve answers, don't make anything up. If you don't know the answer simply respond with \"I don't know\""
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
-      "position": [
-        220,
-        0
-      ],
-      "id": "747ff028-91ed-4992-b456-1d4000134a5a",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "name": "ohio_motor_vehicle_rules",
-        "description": "Return only information from the database don't try and make anything up.",
-        "topK": 5
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
-      "typeVersion": 1,
-      "position": [
-        480,
-        220
-      ],
-      "id": "4c1d4306-c1b1-49e4-89da-a783d886b562",
-      "name": "Vector Store Tool"
-    },
-    {
-      "parameters": {
         "pineconeIndex": {
           "__rl": true,
-          "value": "n8n",
+          "value": "n8n-ollama-mxbai1024",
           "mode": "list",
-          "cachedResultName": "n8n"
+          "cachedResultName": "n8n-ollama-mxbai1024"
         },
         "options": {
           "pineconeNamespace": "knowledgebase"
@@ -140,7 +88,7 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1,
       "position": [
-        340,
+        380,
         420
       ],
       "id": "adeace59-8fbc-485a-b29e-3a865e92179d",
@@ -154,70 +102,64 @@
     },
     {
       "parameters": {
-        "model": "gpt-4o",
+        "model": "llama3.2:latest",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
         120,
-        220
+        260
       ],
-      "id": "e257593a-ad13-45a2-ad76-3658a7439264",
-      "name": "OpenAI Chat Model",
+      "id": "c892a2bd-bb59-480d-8f23-1d8cabf02f53",
+      "name": "Ollama Chat Model",
       "credentials": {
-        "openAiApi": {
-          "id": "xIUMdAYwsmU5daC9",
-          "name": "OpenAi account"
+        "ollamaApi": {
+          "id": "oSSNLM7K1yHzn1Zu",
+          "name": "Ollama account"
         }
       }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.3,
+      "position": [
+        200,
+        0
+      ],
+      "id": "6e743204-6a02-43ee-a508-984ecf116b85",
+      "name": "Question and Answer Chain"
     },
     {
       "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.2,
-      "position": [
-        320,
-        220
-      ],
-      "id": "0fd62b82-6de4-4adc-a326-54bb7ffafc97",
-      "name": "Window Buffer Memory"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
-      "typeVersion": 1.1,
-      "position": [
-        440,
-        640
-      ],
-      "id": "c978ada6-78cd-4988-9d3a-d61295eb8c3a",
-      "name": "Embeddings OpenAI",
-      "credentials": {
-        "openAiApi": {
-          "id": "xIUMdAYwsmU5daC9",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
       "typeVersion": 1,
       "position": [
-        680,
-        460
+        500,
+        160
       ],
-      "id": "f120ac1b-bc1b-4c78-b92c-074aa453d4bb",
-      "name": "OpenAI Vector Tool",
+      "id": "46f76d02-df00-4de2-a055-b4a564fe2838",
+      "name": "Vector Store Retriever"
+    },
+    {
+      "parameters": {
+        "model": "mxbai-embed-large:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        480,
+        640
+      ],
+      "id": "841574b4-3ec3-4622-b5e1-2c2a3ebf23be",
+      "name": "Embeddings Ollama",
       "credentials": {
-        "openAiApi": {
-          "id": "xIUMdAYwsmU5daC9",
-          "name": "OpenAi account"
+        "ollamaApi": {
+          "id": "oSSNLM7K1yHzn1Zu",
+          "name": "Ollama account"
         }
       }
     }
@@ -283,6 +225,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-11-04T20:42:06.113Z",
-  "versionId": "ab1a47c1-49e8-4934-bc6e-baded60656ff"
+  "updatedAt": "2024-11-05T03:18:23.674Z",
+  "versionId": "9c5d40c8-890d-4aea-b9f4-4c69d067961a"
 }
