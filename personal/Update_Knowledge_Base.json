@@ -175,7 +175,7 @@
     },
     {
       "parameters": {
-        "chunkOverlap": 200,
+        "chunkOverlap": 10,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
@@ -194,10 +194,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.1,
       "position": [
-        400,
-        240
+        380,
+        280
       ],
-      "id": "6f1b6091-2ade-4aa8-8abc-a89c19856259",
+      "id": "c0ee93c4-03e7-4c0c-a292-f45dfec1f566",
       "name": "Embeddings OpenAI",
       "credentials": {
         "openAiApi": {
@@ -267,11 +267,11 @@
   ],
   "staticData": {
     "node:Google Drive Trigger": {
-      "lastTimeChecked": "2024-11-04T20:26:27Z"
+      "lastTimeChecked": "2024-11-05T03:10:19Z"
     }
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2024-11-04T20:26:27.737Z",
-  "versionId": "2f28f8a0-c42b-41da-8a74-645cb72ca2dd"
+  "updatedAt": "2024-11-05T03:10:19.611Z",
+  "versionId": "704804cf-fccf-4d9f-a70e-67aa6515b345"
 }
