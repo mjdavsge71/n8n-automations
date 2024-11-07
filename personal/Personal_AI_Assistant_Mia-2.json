@@ -1,0 +1,996 @@
+{
+  "name": "Personal AI Assistant Mia",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "46511f47-1687-4cbe-ae41-ceb205ed1f11",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        1460,
+        860
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "y0AJhOYgMZwDjwTx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Listen for incoming events').first().json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "e35c04ff-a050-4564-8c1b-5b22b556872f",
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        2860,
+        460
+      ],
+      "typeVersion": 1.1,
+      "credentials": {
+        "telegramApi": {
+          "id": "HnK00c60HCXWkbkL",
+          "name": "Telegram account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}"
+      },
+      "id": "8105c39f-9e87-44c4-9215-b3777f0b4164",
+      "name": "Get Voice File",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1960,
+        260
+      ],
+      "typeVersion": 1.1,
+      "credentials": {
+        "telegramApi": {
+          "id": "HnK00c60HCXWkbkL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "ed623e2d-1f5f-433e-9863-361f834ca34e",
+      "name": "Listen for incoming events",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "position": [
+        1500,
+        460
+      ],
+      "webhookId": "322dce18-f93e-4f86-b9b1-3305519b7834",
+      "typeVersion": 1,
+      "credentials": {
+        "telegramApi": {
+          "id": "HnK00c60HCXWkbkL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f8e61829-2793-479d-a33f-615b5abe79bf",
+              "name": "text",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "23fb6e96-ad84-4feb-937b-b8393d972353",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2060,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f3dff06f-7484-4c19-8130-2e0cae3aef2b",
+      "name": "SerpAPI",
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        860
+      ],
+      "credentials": {
+        "serpApi": {
+          "id": "WES4WDYHDbn6qtWl",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "tools"
+      },
+      "id": "bee86933-955b-4f94-9a08-6b23ef971991",
+      "name": "Vector Store Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        3060,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "9811bd28-9629-4c07-a29b-999012c51c27",
+      "name": "OpenAI Chat Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        3240,
+        920
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "y0AJhOYgMZwDjwTx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n"
+        },
+        "options": {}
+      },
+      "id": "4c0330ff-2b97-434b-8e5b-c462d6ff1c3d",
+      "name": "Pinecone Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        3000,
+        920
+      ],
+      "credentials": {
+        "pineconeApi": {
+          "id": "G3HrvtCUi76U7RuB",
+          "name": "PineconeApi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "bf040c78-b116-4cef-931e-cdb4207c9f91",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        3140,
+        1060
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "y0AJhOYgMZwDjwTx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "8dde95bc-4f33-49d7-af50-2ae9dff000a1",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "all",
+        "limit": "={{ $fromAI('amount_of_articles') }}",
+        "additionalFields": {
+          "keyword": "={{ $fromAI('search_query') }}"
+        }
+      },
+      "id": "6275175a-c736-4882-9620-74e687a4d32f",
+      "name": "Hacker News",
+      "type": "n8n-nodes-base.hackerNewsTool",
+      "typeVersion": 1,
+      "position": [
+        2740,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "name": "WeatherTool",
+        "description": "Use this tool to get the current weather data for a specific city. Input should be the name of the city.",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "hpSY1janE56lFPIV"
+        }
+      },
+      "id": "310232de-2f9e-4431-95b7-785c639eb59b",
+      "name": "Weather_Data",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2860,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 20,
+        "filters": {
+          "labelIds": [
+            "INBOX",
+            "UNREAD"
+          ],
+          "readStatus": "unread",
+          "receivedAfter": "={{$fromAI(\"date\",\"the date after which to fetch the messages in format YYYY-MM-DDTHH:MM:SS\")}}"
+        }
+      },
+      "id": "fa955731-86f6-4e4d-8604-dab5f52dee87",
+      "name": "Read Email",
+      "type": "n8n-nodes-base.gmailTool",
+      "position": [
+        1700,
+        860
+      ],
+      "typeVersion": 2.1,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TFQDvjUrgdE1DdVx",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('email_address') }}",
+        "subject": "={{ $fromAI('subject') }}",
+        "message": "={{ $fromAI('email_content', 'email content formated as HTML') }}",
+        "options": {
+          "appendAttribution": true
+        }
+      },
+      "id": "6d780293-ff89-44a8-add1-37e76171776f",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        1800,
+        860
+      ],
+      "webhookId": "0990067d-338e-40f7-b789-d4336f3c4f24",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TFQDvjUrgdE1DdVx",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "mygptworkshop@gmail.com",
+          "mode": "list",
+          "cachedResultName": "mygptworkshop@gmail.com"
+        },
+        "start": "={{$fromAI(\"requested_date\",\"the date to set the event in format YYYY-MM-DDTHH:MM:SS\")}}",
+        "end": "={{$fromAI(\"requested_date\",\"the date to set the event in format YYYY-MM-DDTHH:MM:SS\")}}",
+        "additionalFields": {
+          "summary": "={{$fromAI(\"event_summary\",\"Summary of the event\")}}"
+        }
+      },
+      "id": "d4239dd2-a03c-499d-b66b-3e5869452c49",
+      "name": "Set Calendar",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        2020,
+        860
+      ],
+      "typeVersion": 1.1,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "A9OZ1rrbHw5zydYH",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1N77n0wYkWx0gGKxW8qWIXYqjH8wRvE1gEd1aOSALJ4c",
+          "mode": "list",
+          "cachedResultName": "Media Links",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1N77n0wYkWx0gGKxW8qWIXYqjH8wRvE1gEd1aOSALJ4c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1N77n0wYkWx0gGKxW8qWIXYqjH8wRvE1gEd1aOSALJ4c/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Media Post Links ": "={{ $fromAI('add_summary') }}"
+          },
+          "matchingColumns": [
+            "Media Post Links "
+          ],
+          "schema": [
+            {
+              "id": "Media Post Links ",
+              "displayName": "Media Post Links ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3fb9dd23-f0b8-4b8c-a3dd-3c27b6a08fbb",
+      "name": "Add Summary",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        2440,
+        860
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Jf19ZABRFFBqxs1h",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "app5syWAis16kJa3I",
+          "mode": "list",
+          "cachedResultName": "n8n test",
+          "cachedResultUrl": "https://airtable.com/app5syWAis16kJa3I"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBwHRvzksODiNtO",
+          "mode": "list",
+          "cachedResultName": "Contacts",
+          "cachedResultUrl": "https://airtable.com/app5syWAis16kJa3I/tblBwHRvzksODiNtO"
+        },
+        "options": {}
+      },
+      "id": "d7472e6c-4e5f-4870-81e0-40d71954d021",
+      "name": "Contacts",
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        2120,
+        860
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "UvvFjAySYuZXc4Y9",
+          "name": "Airtable Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "app5syWAis16kJa3I",
+          "mode": "list",
+          "cachedResultName": "n8n test",
+          "cachedResultUrl": "https://airtable.com/app5syWAis16kJa3I"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl5dzxobvNSFqBhf",
+          "mode": "list",
+          "cachedResultName": "Tasks",
+          "cachedResultUrl": "https://airtable.com/app5syWAis16kJa3I/tbl5dzxobvNSFqBhf"
+        },
+        "options": {}
+      },
+      "id": "db64b82b-ed5c-4d39-a235-0dc351909cef",
+      "name": "Tasks",
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        2220,
+        860
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "UvvFjAySYuZXc4Y9",
+          "name": "Airtable Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "mygptworkshop@gmail.com",
+          "mode": "list",
+          "cachedResultName": "mygptworkshop@gmail.com"
+        },
+        "options": {
+          "timeMin": "={{ $fromAI('date', 'the date after which to fetch the messages in format YYYY-MM-DDTHH:MM:SS' )}}",
+          "fields": "items(summary, start(dateTime))"
+        }
+      },
+      "id": "73156a72-0eb9-494f-a522-d14c40194d77",
+      "name": "Get Calendar",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.2,
+      "position": [
+        1900,
+        860
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "A9OZ1rrbHw5zydYH",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "app5syWAis16kJa3I",
+          "mode": "list",
+          "cachedResultName": "n8n test",
+          "cachedResultUrl": "https://airtable.com/app5syWAis16kJa3I"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBwHRvzksODiNtO",
+          "mode": "list",
+          "cachedResultName": "Contacts",
+          "cachedResultUrl": "https://airtable.com/app5syWAis16kJa3I/tblBwHRvzksODiNtO"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $fromAI('name') }}",
+            "Email": "={{ $fromAI('email') }}",
+            "Phone": "={{ $fromAI('phone_number') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ead3213d-8cb4-4d99-a02f-f1aca029477e",
+      "name": "Create Contact",
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        2320,
+        860
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "UvvFjAySYuZXc4Y9",
+          "name": "Airtable Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Listen for incoming events').first().json.message.from.id }}"
+      },
+      "id": "34c39018-ea75-4b49-be6c-9b9eec440281",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [
+        1580,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "5bd1788a-3d08-4eb3-8e03-3ce82f44d2a7",
+      "name": "Speech to Text",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        2180,
+        260
+      ],
+      "typeVersion": 1.3,
+      "credentials": {
+        "openAiApi": {
+          "id": "y0AJhOYgMZwDjwTx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "78036c48-1c14-41ac-8b33-3e04f140acef",
+                    "leftValue": "={{ $json.message.text || \"\"}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "826db5e5-11b4-4b45-9d3f-e8402f4f8f4a",
+                    "leftValue": "error",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "85824f68-4a53-45a4-9548-4971fbba752b",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1720,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text}}",
+        "options": {
+          "systemMessage": "=You are a helpful assistant who responds to user's request in a fun, friendly but professional way. Today's date is {{ $now }}.\n\nGuidelines:\n\nEmail Management:\n- Use the Read Email tool to fetch unread emails from the inbox. Only include non-promotional emails in summaries. Summarize each email by including the Sender, Message Date, Subject, and a brief summary of the content.\n- For sending emails, use the Send Email tool. Ensure to include the recipient’s address, subject, and body of the email. Format the body as HTML if required.\n\nCalendar Management:\n- To retrieve calendar events, use the Get Calendar tool. If the user hasn’t specified a date, default to today’s events. Only mention upcoming events within one week if the query is for future events.\n- For adding a new event, use the Set Calendar tool. Include the event title, date, time, and any relevant description.\n\nTask Management:\n- Use the Airtable Search Record tool to find specific tasks or records related to user queries.\n- Use the Airtable Create Record tool to add new tasks if the user wants to create or log something.\n\nWeb and Information Queries:\n- For general information queries, use the SerpAPI to fetch results from Google Search.\n- If the user requests the latest news on specific topics, use the Hacker News tool to fetch articles. Specify keywords if provided.\n\nWeather Information:\n- Use the Weather_Data tool to retrieve current weather information. Input should be the city name provided by the user.\n\nCalculations:\n- Use the Calculator tool for any arithmetic or mathematical queries.\n\nMemory and Context:\n- Remember to use the memory to maintain context within the current conversation session.\nIf the user switches topics or requests clarification, reset context as needed.\n\nResponse Structure:\n- Keep responses concise and relevant to the user’s question.\nProvide additional details if the user asks for elaboration, otherwise stick to direct answers."
+        }
+      },
+      "id": "759b975f-d17c-4386-a5b3-12413f0361f4",
+      "name": "Mia, AI Assistant 👩🏻‍🏫",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        2400,
+        460
+      ],
+      "typeVersion": 1.6
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get Voice File": {
+      "main": [
+        [
+          {
+            "node": "Speech to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listen for incoming events": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Vector Store Tool",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Tool",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hacker News": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weather_Data": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Summary": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contacts": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tasks": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Contact": {
+      "ai_tool": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Speech to Text": {
+      "main": [
+        [
+          {
+            "node": "Mia, AI Assistant 👩🏻‍🏫",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Get Voice File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mia, AI Assistant 👩🏻‍🏫": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "9a0db9df-f2dc-44f7-84e9-2724b9e2bca6",
+  "meta": {
+    "templateId": "2462",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ae56acec072bc16273543d89bb011ed9ab6cf3dacd823d15e41231870330f72a"
+  },
+  "id": "iRX1ZNVQelByJJTS",
+  "tags": []
+}
