@@ -1,0 +1,155 @@
+{
+  "name": "First Sample",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "options": {}
+      },
+      "id": "f969167b-fa0d-41c0-a8ce-d34f3f1b34a9",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        460,
+        840
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "y0AJhOYgMZwDjwTx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "27f47d20-51ef-4bc6-8fff-895b19b7bf91",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        800,
+        860
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "ef11b507-48b0-4cb9-b3d5-33178027fd6d",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        460,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "name": "WeatherTool",
+        "description": "Use this tool to get the current weather data for a specific city. Input should be the name of the city. ",
+        "workflowId": "hpSY1janE56lFPIV"
+      },
+      "id": "8c52d3f1-ec39-42c8-9655-41a95b4d87cd",
+      "name": "Call n8n Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        840
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "13d43d7c-e0b5-40bf-8d08-6bda538b7ac1",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "142f3302-7ff3-4205-acd3-953c74737b0a",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        680,
+        540
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8d8d1379-66e0-471a-9604-d0209f05b9e6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ae56acec072bc16273543d89bb011ed9ab6cf3dacd823d15e41231870330f72a"
+  },
+  "id": "ek7bBYG0oF0KirFk",
+  "tags": []
+}
