@@ -176,7 +176,8 @@
     },
     {
       "parameters": {
-        "tableName": "n8n_chat_histories_agent"
+        "tableName": "n8n_chat_histories_agent",
+        "contextWindowLength": 15
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.1,
@@ -288,6 +289,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-11-08T03:12:35.445Z",
-  "versionId": "e6c77f58-ef8d-4fe7-bbe6-24c862d8b343"
+  "updatedAt": "2024-11-08T15:01:25.513Z",
+  "versionId": "5b523dd0-0cd3-48e6-995e-a8b18f8210ed"
 }
