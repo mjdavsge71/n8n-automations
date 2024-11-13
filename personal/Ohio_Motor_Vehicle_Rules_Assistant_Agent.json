@@ -1,17 +1,6 @@
 {
   "active": false,
   "connections": {
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Pinecone Vector Store": {
       "ai_vectorStore": [
         [
@@ -77,6 +66,17 @@
           }
         ]
       ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-11-08T03:05:57.294Z",
@@ -84,17 +84,6 @@
   "meta": null,
   "name": "Ohio Motor Vehicle Rules Assistant Agent",
   "nodes": [
-    {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -120,
-        -40
-      ],
-      "id": "a89278ec-073b-4b4f-b8e0-c7dc4d09a8a2",
-      "name": "When chat message received"
-    },
     {
       "parameters": {
         "pineconeIndex": {
@@ -226,6 +215,17 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0b447787-514c-4b97-b524-0efa8d235c20",
+      "name": "When chat message received"
     }
   ],
   "pinData": {},
@@ -254,7 +254,7 @@
             "projectId": "fNTluMKsYBer8dQm",
             "user": {
               "createdAt": "2024-10-24T22:05:50.761Z",
-              "updatedAt": "2024-11-04T02:53:43.849Z",
+              "updatedAt": "2024-11-13T19:44:46.206Z",
               "id": "f5fff29b-3415-42e5-8f3d-79f50031307a",
               "email": "matt@focusedmobile.com",
               "firstName": "Matthew",
@@ -272,7 +272,7 @@
                 "npsSurvey": {
                   "waitingForResponse": true,
                   "ignoredCount": 1,
-                  "lastShownAt": 1730688811927
+                  "lastShownAt": 1731527086195
                 }
               },
               "role": "global:owner",
@@ -289,6 +289,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-11-08T15:01:25.513Z",
-  "versionId": "5b523dd0-0cd3-48e6-995e-a8b18f8210ed"
+  "updatedAt": "2024-11-13T19:44:45.610Z",
+  "versionId": "e8edd565-4398-4957-9a8d-81b11eeae91e"
 }
