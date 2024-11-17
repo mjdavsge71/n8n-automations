@@ -166,7 +166,6 @@
     {
       "parameters": {
         "public": true,
-        "initialMessages": "Hi there! 👋\nI am your friendly Ohio BMV chat bot, I know all the Ohio driver rules!\nExamples: \n- What should I do when driving at night?\n- If I hit a deer what should I do?\n- Can I keep the deer?",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
@@ -177,7 +176,7 @@
       ],
       "id": "02220411-1c29-4da1-922f-34792bb3468a",
       "name": "When chat message received1",
-      "webhookId": "0e9a8ea3-011e-4e13-954c-1a7029e4befb"
+      "webhookId": "59ed1ee1-4f4b-4375-a6a9-4035d2c19175"
     },
     {
       "parameters": {
@@ -254,6 +253,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2024-11-13T21:13:42.685Z",
-  "versionId": "4c7297f6-23b6-439c-98e9-2e1cb96d439a"
+  "updatedAt": "2024-11-16T16:03:05.026Z",
+  "versionId": "31519f39-3d8c-435d-aa8e-3930691d58a7"
 }
