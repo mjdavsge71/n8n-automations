@@ -1,17 +1,6 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "Question and Answer Chain",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Pinecone Vector Store": {
       "ai_vectorStore": [
         [
@@ -55,6 +44,28 @@
           }
         ]
       ]
+    },
+    "When chat message received1": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Question and Answer Chain": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-11-04T14:23:14.931Z",
@@ -62,17 +73,6 @@
   "meta": null,
   "name": "Ohio Motor Vehicle Rules Assistant",
   "nodes": [
-    {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        0,
-        0
-      ],
-      "id": "497152a2-9905-49cf-a98e-2bf0faf3e1a4",
-      "name": "When chat message received"
-    },
     {
       "parameters": {
         "pineconeIndex": {
@@ -138,8 +138,8 @@
       "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
       "typeVersion": 1,
       "position": [
-        500,
-        160
+        380,
+        240
       ],
       "id": "46f76d02-df00-4de2-a055-b4a564fe2838",
       "name": "Vector Store Retriever"
@@ -162,6 +162,34 @@
           "name": "Ollama account"
         }
       }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -120,
+        0
+      ],
+      "id": "02220411-1c29-4da1-922f-34792bb3468a",
+      "name": "When chat message received1",
+      "webhookId": "59ed1ee1-4f4b-4375-a6a9-4035d2c19175"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  // Access the `text` property in the `response` object\n  const text = item.json.response.text;\n  // Return a new object that contains only the text\n  return {json: {text}};\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "c53e69a3-3f9b-4a72-a20f-c66d2b27b5a2",
+      "name": "Code"
     }
   ],
   "pinData": {},
@@ -190,7 +218,7 @@
             "projectId": "fNTluMKsYBer8dQm",
             "user": {
               "createdAt": "2024-10-24T22:05:50.761Z",
-              "updatedAt": "2024-11-04T02:53:43.849Z",
+              "updatedAt": "2024-11-13T19:44:46.206Z",
               "id": "f5fff29b-3415-42e5-8f3d-79f50031307a",
               "email": "matt@focusedmobile.com",
               "firstName": "Matthew",
@@ -208,7 +236,7 @@
                 "npsSurvey": {
                   "waitingForResponse": true,
                   "ignoredCount": 1,
-                  "lastShownAt": 1730688811927
+                  "lastShownAt": 1731527086195
                 }
               },
               "role": "global:owner",
@@ -224,7 +252,7 @@
   ],
   "staticData": null,
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2024-11-05T03:18:23.674Z",
-  "versionId": "9c5d40c8-890d-4aea-b9f4-4c69d067961a"
+  "triggerCount": 2,
+  "updatedAt": "2024-11-16T16:03:05.026Z",
+  "versionId": "31519f39-3d8c-435d-aa8e-3930691d58a7"
 }
