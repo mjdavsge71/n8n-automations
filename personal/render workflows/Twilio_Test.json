@@ -1,0 +1,40 @@
+{
+  "name": "Twilio Test",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "com.twilio.messaging.inbound-message.received"
+        ]
+      },
+      "id": "c45dc6ad-0e60-4b20-9bf4-3423692fb899",
+      "name": "Twilio Trigger",
+      "type": "n8n-nodes-base.twilioTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ],
+      "webhookId": "841e3189-6851-4df1-9112-0203ed33e514",
+      "credentials": {
+        "twilioApi": {
+          "id": "8JKd7zoPp6E5DYfy",
+          "name": "Twilio account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f8eea260-6788-4fbf-967d-3b2978b2d563",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f454f5b33fdf7acf0673d5d4d4542a30fa0428f29c35422bfe95ca36b2a50e9a"
+  },
+  "id": "KMpiug7l80Xe8qBF",
+  "tags": []
+}

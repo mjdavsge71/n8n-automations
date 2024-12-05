@@ -1,0 +1,617 @@
+{
+  "name": "Google Task Assistant Tool",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "0bec3052-ff87-49b3-9d22-87586d63fdc0",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        640,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "task": "={{ $json.message.content[\"List Name\"] }}",
+        "title": "={{ $json.message.content[\"Task Name\"] }}",
+        "additionalFields": {
+          "dueDate": "={{ $json.message.content[\"Due Date\"] }}",
+          "notes": "={{ $json.message.content.Notes }}"
+        }
+      },
+      "id": "381ff2d8-1181-4b95-9606-17a120b16cd1",
+      "name": "Google Tasks",
+      "type": "n8n-nodes-base.googleTasks",
+      "typeVersion": 1,
+      "position": [
+        2100,
+        -80
+      ],
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "2J1YmoMc1MBcjyLL",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "task": "={{ $json.message.content.list_id }}",
+        "taskId": "={{ $json.message.content.task_id }}"
+      },
+      "id": "4672145d-87a9-4a3e-8093-555a27b415e7",
+      "name": "Google Tasks1",
+      "type": "n8n-nodes-base.googleTasks",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        180
+      ],
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "2J1YmoMc1MBcjyLL",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "task": "={{ $json.message.content[\"List Name\"] }}"
+      },
+      "id": "5bf7fc2a-8761-4638-b50b-224fb8aed669",
+      "name": "Google Tasks2",
+      "type": "n8n-nodes-base.googleTasks",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        640
+      ],
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "2J1YmoMc1MBcjyLL",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Define the mapping of list names to their respective IDs\nconst listNameToId = {\n  \"Home\": \"VmJiMUhJcXBLQnJRVkpjdg\",\n  \"AI Business\": \"VUNVaWRrQUhsVU1neDZTLQ\",\n  \"Ideas\": \"aVpxQkJ5X2tnMVZzSXlGLQ\"\n};\n\n// Loop over input items and replace 'List Name' with corresponding ID\nfor (const item of $input.all()) {\n  const listName = item.json.message.content[\"List Name\"];\n  \n  // Check if the 'List Name' matches a key in the mapping object\n  if (listNameToId[listName]) {\n    // Replace 'List Name' with the corresponding ID\n    item.json.message.content[\"List Name\"] = listNameToId[listName];\n  }\n}\n\n// Return the modified items\nreturn $input.all();"
+      },
+      "id": "cc04ed0e-c94d-481a-b91c-1c49ae23035d",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        360
+      ],
+      "notesInFlow": true,
+      "notes": "Replace List Name with ID"
+    },
+    {
+      "parameters": {
+        "name": "google_task_lookup_tool",
+        "description": "Call this tool to find the id of the google task you want to delete",
+        "workflowId": {
+          "__rl": true,
+          "value": "PF0KBY96io8vY0a3",
+          "mode": "list",
+          "cachedResultName": "Google Task Lookup Tool"
+        }
+      },
+      "id": "cabfd555-8277-4bf0-8edd-509d5479013d",
+      "name": "Google Task Lookup Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2440,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Parse the data from the input data, always output your answers in the following format:\n- Operation (Use either \"New Task\", \"Delete Task\", \"Update Task\", \"Get Task\" or \"Get Many\")\n- Text (Pass the full text from the input data)\n- Task Name (Using the input data come up with a task name)\n- Notes (Create a more deatiled task description based on the input data)\n- Due Date (Parse the input data for due date, if not specified set the date to 7 days from {{ $now }}.\n- List Name (Parse the input data to determin the list, only options are \"Home\", \"Ideas\" or \"AI Business\")\n\nInput Data:  {{ $json.query }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "3ff02ec0-db03-41b8-9052-ccd3976630d8",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        840,
+        360
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "dSUtQSSETvEyHK72",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9795a9ee-e316-41b5-a259-0d7e341892f3",
+              "name": "task_name",
+              "value": "={{ $json.message.content[\"Task Name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "afc12ee2-66d4-4e34-8cae-efe2300a0b4d",
+              "name": "list_id",
+              "value": "={{ $json.message.content[\"List Name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "9ad938cf-18ef-460b-8d08-3be22c81ef9e",
+              "name": "operation",
+              "value": "={{ $json.message.content.Operation }}",
+              "type": "string"
+            },
+            {
+              "id": "70a5e0ee-9c22-4890-893b-a8e813efa0bb",
+              "name": "notes",
+              "value": "={{ $json.message.content.Notes }}",
+              "type": "string"
+            },
+            {
+              "id": "6af77db5-3fb7-4034-9ca9-c8024feeac42",
+              "name": "prompt",
+              "value": "={{ $json.message.content.Text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0f654230-4673-4047-a9e6-fc10029a4229",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1840,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "task": "={{ $json.message.content[\"List Name\"] }}",
+        "returnAll": true,
+        "additionalFields": {}
+      },
+      "id": "24c0546a-9762-44fd-973e-a0bfeef43b8b",
+      "name": "Get All Tasks",
+      "type": "n8n-nodes-base.googleTasks",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        900
+      ],
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "2J1YmoMc1MBcjyLL",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "updateFields": {}
+      },
+      "id": "469d2f9a-fa44-4980-9e82-1ca5a31b59c2",
+      "name": "Update Task",
+      "type": "n8n-nodes-base.googleTasks",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        1080
+      ],
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "2J1YmoMc1MBcjyLL",
+          "name": "Google Tasks account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Use this switch branch to delete, get single or update tasks"
+      },
+      "id": "7c972ec4-de4b-4eed-b2cb-44a41e0454ec",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2600,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "name": "google_task_lookup2",
+        "workflowId": {
+          "__rl": true,
+          "value": "PF0KBY96io8vY0a3",
+          "mode": "list",
+          "cachedResultName": "Google Task Lookup Tool"
+        }
+      },
+      "id": "0362b6b8-950d-4ad5-9607-5126b2296243",
+      "name": "Google Task Lookup 2",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2520,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=When you receive a delete task operation, use the original prompt, notes and the list name to send the output to the Google Task Lookup Tool. Send the output to the tool as a query in the following format:  {{ $json.task_name }} from {{ $json.list_id }} list\n\nOriginal Prompt:{{ $json.prompt }}\nNotes: {{ $json.notes }}\nList Name: {{ $json.list_id }}\nOperation: {{ $json.operation }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "ff630522-f7e0-4deb-a4ea-a5b7178bd480",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        2160,
+        160
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "dSUtQSSETvEyHK72",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=When you receive a delete task operation, use the original prompt, notes and the list name to send the output to the Google Task Lookup Tool. Send the output to the tool as a query in the following format:  {{ $json.task_name }} from {{ $json.list_id }} list\n\nOriginal Prompt:{{ $json.prompt }}\nNotes: {{ $json.notes }}\nList Name: {{ $json.list_id }}\nOperation: {{ $json.operation }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "8ca7fbd1-097e-4a65-9c46-f7a486e429ce",
+      "name": "OpenAI2",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        2260,
+        580
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "dSUtQSSETvEyHK72",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.content.Operation }}",
+                    "rightValue": "New Task",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "966d6731-85f7-4aac-9c02-abb6a5699d13",
+                    "leftValue": "={{ $json.message.content.Operation }}",
+                    "rightValue": "Delete Task",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "29e71a7e-e2b9-4d8e-80f0-f55cacba3950",
+                    "leftValue": "={{ $json.message.content.Operation }}",
+                    "rightValue": "Get Task",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dca2c52a-c658-45aa-b59e-92b887cb7afd",
+                    "leftValue": "={{ $json.message.content.Operation }}",
+                    "rightValue": "Get Many",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "420ad6e3-ea20-4769-b974-01fc618864af",
+                    "leftValue": "={{ $json.message.content.Operation }}",
+                    "rightValue": "Update Task",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fc057947-d3fe-43fb-848f-6f237bd6757f",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1420,
+        360
+      ],
+      "notesInFlow": true,
+      "notes": "0 New 1 Del 2 Get 3 Many"
+    }
+  ],
+  "pinData": {
+    "Execute Workflow Trigger": [
+      {
+        "json": {
+          "query": "get the boat cover task from my home list"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Task Lookup Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Task Lookup 2": {
+      "ai_tool": [
+        [
+          {
+            "node": "OpenAI2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Google Tasks1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI2": {
+      "main": [
+        [
+          {
+            "node": "Google Tasks2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Google Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenAI2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get All Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4fce6997-9728-4cda-b75c-a412ca625e52",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f454f5b33fdf7acf0673d5d4d4542a30fa0428f29c35422bfe95ca36b2a50e9a"
+  },
+  "id": "nknSQBdMFgNFhuTQ",
+  "tags": []
+}

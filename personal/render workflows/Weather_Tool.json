@@ -1,0 +1,241 @@
+{
+  "name": "Weather Tool",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "26f65ddd-29f3-41ad-8016-4ace0b61787f",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "183b4d84-67bf-4c5f-a7d6-7dfeebc7097e",
+              "leftValue": "={{ $json.message.content.Length }}",
+              "rightValue": "Multiple",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "10be7cd5-bfe3-45db-8ef3-f1ac8af7ce0a",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1640,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## OpenWeather API\n**API Format**\n[https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}]()",
+        "height": 177.4883720930232,
+        "width": 388.65116279069724
+      },
+      "id": "8fc82bf6-4fe5-47dc-b6a0-329144c6104e",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        780,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "5DayForecast",
+        "format": "imperial",
+        "locationSelection": "coordinates",
+        "latitude": "={{ $json.message.content.Latitude }}",
+        "longitude": "={{ $json.message.content.Longitude }}"
+      },
+      "id": "fb4527a1-02d9-4ba1-b9ac-eb47806dc17c",
+      "name": "OpenWeather5",
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        220
+      ],
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "V8buuzwLXDcIOIpd",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "format": "imperial",
+        "locationSelection": "coordinates",
+        "latitude": "={{ $json.message.content.Latitude }}",
+        "longitude": "={{ $json.message.content.Longitude }}"
+      },
+      "id": "2a46345c-d1e7-4626-ab07-da9150bae38e",
+      "name": "OpenWeatherMap1",
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        460
+      ],
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "V8buuzwLXDcIOIpd",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Parse the data from the input data, always output your answers in the following format:\n- City name\n- State name\n- Longitude (Use City name and State name to get Longitude)\n- Latitude (Use City name and State name to get Latitude)\n- Length (if user is asking for \"forecast\" or \"weather\" or \"todays weather\" this should be as string:\"Single\", if asking for a \"multiple day forecast\" or \"5 day forecast\" or \"tomorrows forecast\" this should be string:\"Multiple\")\n\nInput Data:  {{ $json.query }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "07421d50-10c0-4e5a-9a5a-523bd8a67971",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        1040,
+        360
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "dSUtQSSETvEyHK72",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a24db931-4ff5-429e-88af-80d5253e5b66",
+              "name": "response",
+              "value": "={{$json}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "30a56340-a0f0-4922-b82a-174216d389e6",
+      "name": "Return JSON",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2200,
+        360
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "OpenWeather5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OpenWeatherMap1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeather5": {
+      "main": [
+        [
+          {
+            "node": "Return JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap1": {
+      "main": [
+        [
+          {
+            "node": "Return JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c764c3df-5a91-4b3c-a612-078f476b96e9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f454f5b33fdf7acf0673d5d4d4542a30fa0428f29c35422bfe95ca36b2a50e9a"
+  },
+  "id": "dfkr6GmwBRhgdz9E",
+  "tags": []
+}

@@ -1,0 +1,539 @@
+{
+  "name": "Scrape Google Maps",
+  "nodes": [
+    {
+      "parameters": {
+        "base": {
+          "__rl": true,
+          "value": "appLyKFu63hrlHwqz",
+          "mode": "list",
+          "cachedResultName": "Google Maps Scaping",
+          "cachedResultUrl": "https://airtable.com/appLyKFu63hrlHwqz"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblgNHKSJfdvuwAKq",
+          "mode": "list",
+          "cachedResultName": "Queries",
+          "cachedResultUrl": "https://airtable.com/apptu95gGaDFWqHKA/tblgNHKSJfdvuwAKq"
+        },
+        "id": "={{ $json.query.recordId }}",
+        "options": {}
+      },
+      "id": "75760bea-2db5-4023-ae87-c48cf0302793",
+      "name": "Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -100,
+        660
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "gzdoPuQrGbLvlC1i",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "apptu95gGaDFWqHKA",
+          "mode": "list",
+          "cachedResultName": "Google Maps Scaping",
+          "cachedResultUrl": "https://airtable.com/apptu95gGaDFWqHKA"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblgNHKSJfdvuwAKq",
+          "mode": "list",
+          "cachedResultName": "Queries",
+          "cachedResultUrl": "https://airtable.com/apptu95gGaDFWqHKA/tblgNHKSJfdvuwAKq"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Scrape GO!": false,
+            "Actor Run ID": "={{ $json.data.id }}",
+            "Status": "Run Started"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Keyword",
+              "displayName": "Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Run Started",
+                  "value": "Run Started"
+                },
+                {
+                  "name": "Run finished",
+                  "value": "Run finished"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Scrape GO!",
+              "displayName": "Scrape GO!",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "RecordID",
+              "displayName": "RecordID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Actor Run ID",
+              "displayName": "Actor Run ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6d94c4c5-4748-45a0-baf1-983599c5e721",
+      "name": "Airtable1",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        680,
+        460
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "gzdoPuQrGbLvlC1i",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/compass~google-maps-extractor/runs?token=apify_api_zAlgdf0cL6yZTUHwVhxeBZ11bg6Wb92sS9BZ",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n    \"categoryFilterWords\": [\n        \"roofing contractor\"\n    ],\n    \"city\": \"Los angeles\",\n    \"countryCode\": \"us\",\n    \"deeperCityScrape\": true,\n    \"language\": \"en\",\n    \"maxCrawledPlacesPerSearch\": 50,\n    \"searchMatching\": \"all\",\n    \"skipClosedPlaces\": false\n}",
+        "options": {}
+      },
+      "id": "78e1e1d4-d53f-484f-a5b5-3e6332899e64",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json['Actor Run ID'] }}/dataset/items?token=apify_api_zAlgdf0cL6yZTUHwVhxeBZ11bg6Wb92sS9BZ ",
+        "options": {}
+      },
+      "id": "ff8caf0a-01dd-477e-8d77-cac21f78fb4b",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "path": "91a48160-821b-4386-b57b-9a081721e826",
+        "options": {}
+      },
+      "id": "dd0de1ff-3757-4aee-ba9c-f04b56ae20d6",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -340,
+        660
+      ],
+      "webhookId": "91a48160-821b-4386-b57b-9a081721e826"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "searchString",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "09140e46-deb9-4194-8c2d-ef7116507a52",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        680,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "apptu95gGaDFWqHKA",
+          "mode": "list",
+          "cachedResultName": "Google Maps Scaping",
+          "cachedResultUrl": "https://airtable.com/apptu95gGaDFWqHKA"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl5W2ssaw00a1D4J",
+          "mode": "list",
+          "cachedResultName": "Results",
+          "cachedResultUrl": "https://airtable.com/apptu95gGaDFWqHKA/tbl5W2ssaw00a1D4J"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Scrape Email START!": false,
+            "Website": "={{ $json.website }}",
+            "Position": "={{ $json.rank }}",
+            "Rating": "={{ $json.totalScore }}",
+            "Rating count": "={{ $json.reviewsCount }}",
+            "Business name": "={{ $json.title }}",
+            "Address": "=",
+            "Category": "={{ $json.categories[0] }}",
+            "Phone Number": "={{ $json.phoneUnformatted }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Business name",
+              "displayName": "Business name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Position",
+              "displayName": "Position",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Rating",
+              "displayName": "Rating",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Rating count",
+              "displayName": "Rating count",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Scrape Email START!",
+              "displayName": "Scrape Email START!",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "RecordId",
+              "displayName": "RecordId",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d5947cfa-b47b-4dc4-8c9b-d2bea076934d",
+      "name": "Airtable2",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        940,
+        780
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "gzdoPuQrGbLvlC1i",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "Run Started",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "42f40f9a-7268-4e28-8f03-429b81a805c8",
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "Run finished",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "id": "a8997f6c-1122-41fc-b77e-b110b154d76b",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        160,
+        660
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Airtable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Airtable2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "71e4af7a-4d10-4fab-92b6-5f38e7957de2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f454f5b33fdf7acf0673d5d4d4542a30fa0428f29c35422bfe95ca36b2a50e9a"
+  },
+  "id": "bvR7Ne4MhhHgtWnH",
+  "tags": []
+}
